@@ -2,7 +2,7 @@ from pystyle import *
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 
-# Initialize the geolocator with a user agent and default language
+# Initialize the geolocator with a user agent
 geolocator = Nominatim(user_agent="city_distance_calculator")
 
 # Display the program title and description
