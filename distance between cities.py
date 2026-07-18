@@ -22,10 +22,10 @@ try:
     if location1 is None or location2 is None:
         Write.Print("[-] One or both cities not found. Please check the names and try again.\n", Colors.red, interval=0.1)
     # check if both cities are the same    
-    elif location1 == location2:
+    elif (location1.latitude, location1.longitude) == (location2.latitude, location2.longitude):
         Write.Print("[-] Both cities are the same. Please enter different cities.\n", Colors.red, interval=0.1)
     # If both locations are valid and different, calculate the distance
-    elif location1 and location2:
+    else:
         # Store the coordinates of both locations as (latitude, longitude) tuples
         f_p = (location1.latitude, location1.longitude)
         s_p = (location2.latitude, location2.longitude)
