@@ -2,8 +2,8 @@ from pystyle import *
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 
-# Initialize the geolocator with a user agent
-geolocator = Nominatim(user_agent="city_distance_calculator")
+# Initialize the geolocator with a user agent and timeout for requests
+geolocator = Nominatim(user_agent="city_distance_calculator" , timeout=10)
 
 # Display the program title and description
 print(Box.Lines("[+] Distance Calculator [+]"))
@@ -15,8 +15,8 @@ try:
     city2_name = input(" Enter the second city name: ")
 
     # Fetch location detailes and coordinates for both cities
-    location1 = geolocator.geocode(city1_name , language="en")
-    location2 = geolocator.geocode(city2_name , language="en")
+    location1 = geolocator.geocode(city1_name , language="en", exactly_one=True)
+    location2 = geolocator.geocode(city2_name , language="en", exactly_one=True)
 
     # check if either of the locations is None (not found)
     if location1 is None or location2 is None:
