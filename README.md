@@ -29,7 +29,7 @@ python distance-between-cities.py
 When you run it:
 
 1. It checks you're online
-2. Asks if you want translation on (say yes if you're typing city names in Arabic, French, etc. — say no if you're just typing in English)
+2. Asks if you want translation on (say yes if you're typing city names in german, French, etc. — say no if you're just typing in English)
 3. Enter city #1, then city #2
 4. Pick km or miles
 5. You get the coordinates, distance, and bearing printed out
