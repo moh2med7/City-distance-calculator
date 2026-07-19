@@ -7,9 +7,6 @@ import folium
 import webbrowser
 import os
 
-# Initialize colorama for colored output in the terminal
-init(autoreset=True)
-
 # Initialize the geolocator with a user agent and timeout for requests
 geolocator = Nominatim(user_agent="city_distance_calculator" , timeout=10)
 
