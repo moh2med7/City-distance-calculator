@@ -1,0 +1,4 @@
+pystyle==2.9
+geopy==2.4.1
+folium==0.20.0
+deep-translator==1.11.4
