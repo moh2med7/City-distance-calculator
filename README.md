@@ -1,48 +1,44 @@
-# 🗺️ Advanced Distance & Navigation Calculator
+# 🗺️ City Distance Calculator
 
-An interactive Python command-line tool designed to calculate precise geographic distances and bearings between cities worldwide using real-time coordinates. It also generates a 2D interactive map that opens automatically in your web browser.
+A simple Python CLI tool that calculates the distance and bearing between two cities. Type in any two city names and it'll geocode them, show you the distance (km or miles), the compass direction from one to the other, and optionally open an interactive map showing the route.
 
-## ✨ Key Features
+## ✨ Features
 
-- **Auto Internet Check**: Automatically verifies your network connection before running to prevent errors while fetching location data.
-- **Smart City Geocoding**: Utilizes the Geopy library to fetch exact coordinates (latitude and longitude) and country names for any city input.
-- **Measurement Options**: Allows users to calculate the distance in either Kilometers (km) or Miles (mi).
-- **Initial Bearing & Compass Direction**: Calculates the exact initial navigation angle between two points and translates it into a compass direction (e.g., North-East).
-- **Interactive 2D Map**: Generates a dynamic map using Folium, drawing a visual flight path (PolyLine) between both locations with informative custom markers.
-- **Stylish CLI Visuals**: Features a clean, colorful, and animated terminal interface using pystyle and colorama.
+- Checks your internet connection before trying to fetch anything
+- Can auto-translate city names to English if you type them in another language (uses Google Translate under the hood)
+- Geocodes cities using Nominatim/OpenStreetMap via geopy
+- Distance in km or miles, your choice
+- Initial bearing + compass direction (like "North-East") between the two points
+- Generates a 2D map (Folium) with markers and a path line, opens in your browser
+- Colored terminal output via pystyle
 
-## 🛠️ Dependencies & Installation
+## 🛠️ Setup
 
-Make sure you have Python installed, then install the required external libraries using pip. Run the following command in your terminal:
-
-```bash
-pip install pystyle geopy folium
+```
+pip install -r requirements.txt
 ```
 
-**Libraries Used:**
+That installs everything (pystyle, geopy, folium, deep-translator) with the current tested versions, pinned in `requirements.txt`. Only the standard library stuff (socket, math, webbrowser, os) isn't in there since it comes with Python.
 
-- `geopy`: For geocoding addresses and calculating accurate geodesic distances.
-- `folium`: For generating and rendering interactive HTML maps.
-- `pystyle`: For adding color gradients and typewriter text effects to the console.
-- `socket`, `math`, `webbrowser`, `os`: Built-in Python standard libraries for network checks, trigonometry, and file handling.
+## 🚀 Usage
 
-## 🚀 How to Run
+```
+python distance-between-cities.py
+```
 
-1. Launch the script from your terminal or command prompt:
-   ```bash
-   python distance-between-cities.py
-   ```
-2. Enter the name of the first city, followed by the second city (supports multiple languages).
-3. Select your preferred unit of measurement: `1` for Kilometers or `2` for Miles.
-4. The program will display the precise coordinates, total distance, and initial bearing.
-5. When prompted to display the 2D Navigation Map, type `1`. The program will save the map as `navigation_map.html` and launch it automatically in your default web browser.
+When you run it:
 
-## 📸 Generated Map Features
+1. It checks you're online
+2. Asks if you want translation on (say yes if you're typing city names in Arabic, French, etc. — say no if you're just typing in English)
+3. Enter city #1, then city #2
+4. Pick km or miles
+5. You get the coordinates, distance, and bearing printed out
+6. Choose whether to open the map — if yes, it saves `navigation_map.html` and opens it automatically
 
-When you opt to generate the map, you will get a standalone HTML file containing:
+## 📍 About the map
 
-- A **Red Marker** representing the starting city, displaying coordinates and the bearing angle when clicked.
-- A **Green Star Marker** representing the destination city.
-- A **Blue Path Line** showing the direct line-of-sight navigation route between both points.
+- Red marker = starting city (click it to see the bearing too)
+- Green star marker = destination
+- Blue line = the path between them
 
-> **Note:** This tool utilizes the OpenStreetMap service via Nominatim. An active internet connection is required to fetch city data accurately.
+Needs an internet connection since it's pulling from OpenStreetMap/Nominatim.
