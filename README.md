@@ -16,14 +16,14 @@ An interactive Python command-line tool designed to calculate precise geographic
 Make sure you have Python installed, then install the required external libraries using pip. Run the following command in your terminal:
 
 ```bash
-pip install pystyle colorama geopy folium
+pip install pystyle geopy folium
 ```
 
 **Libraries Used:**
 
 - `geopy`: For geocoding addresses and calculating accurate geodesic distances.
 - `folium`: For generating and rendering interactive HTML maps.
-- `pystyle` & `colorama`: For adding color gradients and typewriter text effects to the console.
+- `pystyle`: For adding color gradients and typewriter text effects to the console.
 - `socket`, `math`, `webbrowser`, `os`: Built-in Python standard libraries for network checks, trigonometry, and file handling.
 
 ## 🚀 How to Run
