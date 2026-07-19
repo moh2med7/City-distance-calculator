@@ -30,7 +30,7 @@ pip install pystyle geopy folium
 
 1. Launch the script from your terminal or command prompt:
    ```bash
-   python main.py
+   python distance-between-cities.py
    ```
 2. Enter the name of the first city, followed by the second city (supports multiple languages).
 3. Select your preferred unit of measurement: `1` for Kilometers or `2` for Miles.
