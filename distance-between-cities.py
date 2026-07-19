@@ -1,18 +1,23 @@
 from pystyle import *
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
+from deep_translator import GoogleTranslator
 import socket
 import math
 import folium
+from folium.plugins import AntPath
 import webbrowser
 import os
 
 # Initialize the geolocator with a user agent and timeout for requests
 geolocator = Nominatim(user_agent="city_distance_calculator" , timeout=10)
 
+# Set the translation flag to False by default.
+USE_TRANSLATION = False
+
 # Display the program title and description
 print(Box.Lines("[+] Distance Calculator [+]"))
-Write.Print("[-] this program for distance between cities \n" , Colors.purple_to_red , interval=0.05)
+Write.Print("[-] this program for distance between cities \n" , Colors.blue_to_cyan , interval=0.05)
 
 # define a function to check for internet connectivity  
 def check_internet():
@@ -41,11 +46,13 @@ def draw_map(lat1, lon1, lat2, lon2, city1_name, city2_name, bearing_deg):
     icon=folium.Icon(color="green", icon="star")
     ).add_to(my_map)
 
-    folium.PolyLine(
-    locations=[point1, point2],
-    color="blue",
-    weight=2.5,
-    opacity=0.8
+    AntPath(
+        locations=[point1, point2],
+        color="blue",
+        pulse_color="white",
+        weight=4,
+        opacity=0.8,
+        delay=1000
     ).add_to(my_map)
 
     file_path = "navigation_map.html"
@@ -86,6 +93,21 @@ def get_bearing(lat1, lon1, lat2, lon2):
     # return both the bearing in degrees and the corresponding compass direction
     return bearing, directions[idx]
 
+# Check internet connection and ask for translation choice before entering the main loop
+if check_internet():
+            Write.Print("[+] Internet connection is active.\n", Colors.green, interval=0.1)
+            print('\n')
+            Write.Print("[?] Do you want to enable automatic translation for city names?", Colors.yellow, interval=0.05)
+            print('\n')
+            print("     1. Yes, enable automatic translation (recommended for non-English names)")
+            print("     2. No, (write directly in English)")
+            trans_choice = input("\nEnter choice number (1-2): ").strip()
+            if trans_choice == '1':
+                USE_TRANSLATION = True
+                print("     [+] Translation enabled!")
+            else:
+                print("     [i] Translation disabled.")
+
 # Main program loop
 while True:
     try:
@@ -95,12 +117,29 @@ while True:
             input("\n Press Enter to retry connection...")
             continue
         # Get city names from the user
-        city1_name = input(" Enter the first city name: ").strip()
-        city2_name = input(" Enter the second city name: ").strip()
+        print()
+        city1_input = input("Enter the first city name: ").strip()
+        city2_input = input("Enter the second city name: ").strip()
         # check if either of the city names is empty
-        if not city1_name or not city2_name:
+        if not city1_input or not city2_input:
             Write.Print('[-] City names cannot be empty. Try again.\n', Colors.red, interval=0.1)
             continue
+        # translate the input if translation is enable
+        if USE_TRANSLATION:
+            try:
+                city1_name = GoogleTranslator(source='auto', target='en').translate(city1_input)
+                city2_name = GoogleTranslator(source='auto', target='en').translate(city2_input)
+                print()
+                print(f"[i] Translated: '{city1_input}' -> '{city1_name}'")
+                print(f"[i] Translated: '{city2_input}' -> '{city2_name}'")
+            # If translation fails, fallback to the original user input
+            except Exception:
+                city1_name = city1_input
+                city2_name = city2_input
+        # If translation is disabled, use original input directly
+        else:
+            city1_name = city1_input
+            city2_name = city2_input
         # Fetch location details and coordinates for both cities
         location1 = geolocator.geocode(city1_name , language="en", exactly_one=True)
         location2 = geolocator.geocode(city2_name , language="en", exactly_one=True)
@@ -126,9 +165,15 @@ while True:
         if unit_choice == "2":
             dis = int(geodesic(f_p, s_p).miles)  # calculate in Miles
             unit_str = "miles"
+            print('The unit of measurement will be in miles')
+        elif unit_choice == '1':
+            dis = int(geodesic(f_p, s_p).km) # calculate in Kilometers
+            unit_str = 'kilometers'
+            print('The unit of measurement will be in Kilometers')
         else:
             dis = int(geodesic(f_p, s_p).km)  # calculate in Kilometers
             unit_str = "kilometers"
+            print('[!] Invalid choice. The unit of measurement will be in kilometers by default')
         # Extract the city names from the full address for display
         name1 = location1.address.split(',')[0].strip()
         country1 = location1.address.split(',')[-1].strip()
